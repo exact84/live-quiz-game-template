@@ -38,15 +38,16 @@ export function handleJoinGameCommand(ws: WebSocket, data: JoinGameData) {
       ws,
     });
 
-    broadcast(game.players, "player_joined", {
-      playerName: user.name,
-      playerCount: game.players.length,
-    });
+    broadcast(
+      game.players,
+      "player_joined",
+      {
+        playerName: user.name,
+        playerCount: game.players.length,
+      },
+      game.hostWs,
+    );
   }
-
-  send(ws, "game_joined", {
-    gameId: game.id,
-  });
 
   broadcast(
     game.players,
@@ -56,5 +57,12 @@ export function handleJoinGameCommand(ws: WebSocket, data: JoinGameData) {
       index: player.index,
       score: player.score,
     })),
+    game.hostWs,
   );
+
+  setTimeout(() => {
+    send(ws, "game_joined", {
+      gameId: game.id,
+    });
+  }, 0);
 }

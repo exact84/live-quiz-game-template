@@ -33,10 +33,15 @@ export function broadcast(
   players: Player[],
   type: string,
   data: unknown,
+  extraWs?: WebSocket,
 ): void {
   for (const player of players) {
     if (player.ws) {
       send(player.ws, type, data);
     }
+  }
+
+  if (extraWs) {
+    send(extraWs, type, data);
   }
 }

@@ -33,21 +33,16 @@ export function handleCreateGameCommand(
     code,
     hostId: user.index,
     questions: data.questions,
-    players: [hostPlayer],
+    players: [],
     currentQuestion: -1,
     status: "waiting",
     questionStartTime: undefined,
     questionTimer: undefined,
     playerAnswers: new Map(),
+    hostWs: ws,
   };
 
   addGame(game);
-
-  send(ws, "game_created", {
-    gameId: game.id,
-    code: game.code,
-    // hostId: game.hostId,
-  });
 
   send(ws, "update_players", [
     {
@@ -56,4 +51,12 @@ export function handleCreateGameCommand(
       score: hostPlayer.score,
     },
   ]);
+
+  setTimeout(() => {
+    send(ws, "game_created", {
+      gameId: game.id,
+      code: game.code,
+      // hostId: game.hostId,
+    });
+  }, 0);
 }

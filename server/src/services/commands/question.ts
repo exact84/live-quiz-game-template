@@ -10,13 +10,18 @@ export function startQuestion(game: Game): void {
     return;
   }
 
-  broadcast(game.players, "question", {
-    questionNumber: game.currentQuestion + 1,
-    totalQuestions: game.questions.length,
-    text: question.text,
-    options: question.options,
-    timeLimitSec: question.timeLimitSec,
-  });
+  broadcast(
+    game.players,
+    "question",
+    {
+      questionNumber: game.currentQuestion + 1,
+      totalQuestions: game.questions.length,
+      text: question.text,
+      options: question.options,
+      timeLimitSec: question.timeLimitSec,
+    },
+    game.hostWs,
+  );
 
   game.questionTimer = setTimeout(() => {
     finishQuestion(game);
@@ -63,11 +68,16 @@ export function finishQuestion(game: Game): void {
     };
   });
 
-  broadcast(game.players, "question_result", {
-    questionIndex: game.currentQuestion,
-    correctIndex: correctAnswerIndex,
-    playerResults,
-  });
+  broadcast(
+    game.players,
+    "question_result",
+    {
+      questionIndex: game.currentQuestion,
+      correctIndex: correctAnswerIndex,
+      playerResults,
+    },
+    game.hostWs,
+  );
 
   game.currentQuestion += 1;
 
@@ -84,6 +94,6 @@ export function finishQuestion(game: Game): void {
         rank: index + 1,
       }));
     game.status = "finished";
-    broadcast(game.players, "game_finished", { scoreboard });
+    broadcast(game.players, "game_finished", { scoreboard }, game.hostWs);
   }
 }
