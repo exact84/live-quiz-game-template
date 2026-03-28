@@ -18,3 +18,13 @@ export function sendError(ws: WebSocket, message: string): void {
     }),
   );
 }
+
+export function send(ws: WebSocket, type: string, data: unknown): void {
+  ws.send(
+    JSON.stringify({
+      id: 0,
+      type,
+      data,
+    }),
+  );
+}
