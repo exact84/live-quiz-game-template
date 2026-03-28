@@ -1,5 +1,4 @@
 import type { WebSocket } from "ws";
-// import type { WSMessage } from "./types";
 import { sendError } from "./utils/ws";
 import {
   handleAnswerCommand,
@@ -7,12 +6,12 @@ import {
   handleJoinGameCommand,
   handleRegCommand,
   handleStartGameCommand,
-  handleUserDisconnect,
-} from "./services/command-handlers";
+} from "./services/commands";
 import { isValidMessage } from "./utils/ws";
+import { disconnectUserBySocket } from "./store/memory-store";
 
 export function handleMessage(ws: WebSocket, text: string): void {
-  console.log(text);
+  console.log("Incoming message:", text);
   let message: unknown;
 
   try {
@@ -56,7 +55,7 @@ export function handleMessage(ws: WebSocket, text: string): void {
 }
 
 export function handleDisconnect(ws: WebSocket): void {
-  handleUserDisconnect(ws);
+  disconnectUserBySocket(ws);
 }
 
 export function handleError(ws: WebSocket, error: Error): void {

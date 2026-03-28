@@ -7,10 +7,10 @@ export function addUser(user: User): void {
   users.push(user);
 }
 
-export function removeUserBySocket(ws: WebSocket): void {
-  const index = users.findIndex((user) => user.ws === ws);
-  if (index !== -1) {
-    users.splice(index, 1);
+export function disconnectUserBySocket(ws: WebSocket): void {
+  const user = getUserBySocket(ws);
+  if (user) {
+    user.ws = undefined;
   }
 }
 

@@ -1,21 +1,8 @@
 import type { WebSocket } from "ws";
-import type {
-  RegData,
-  CreateGameData,
-  JoinGameData,
-  StartGameData,
-  AnswerData,
-  User,
-} from "../types";
-import { addUser, getUserByName } from "../store/memory-store";
 import { randomUUID } from "node:crypto";
-import { send, sendError } from "../utils/ws";
-
-export function handleAnswerCommand(ws: WebSocket, data: AnswerData) {}
-
-export function handleCreateGameCommand(ws: WebSocket, data: CreateGameData) {}
-
-export function handleJoinGameCommand(ws: WebSocket, data: JoinGameData) {}
+import { send, sendError } from "../../utils/ws";
+import type { RegData, User } from "../../types";
+import { addUser, getUserByName } from "../../store/memory-store";
 
 export function handleRegCommand(ws: WebSocket, data: RegData): void {
   const { name, password } = data;
@@ -61,7 +48,3 @@ export function handleRegCommand(ws: WebSocket, data: RegData): void {
     });
   }
 }
-
-export function handleStartGameCommand(ws: WebSocket, data: StartGameData) {}
-
-export function handleUserDisconnect(ws: WebSocket) {}
