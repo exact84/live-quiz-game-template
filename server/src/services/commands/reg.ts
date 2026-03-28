@@ -19,10 +19,8 @@ export function handleRegCommand(ws: WebSocket, data: RegData): void {
 
       send(ws, "reg", {
         success: true,
-        user: {
-          name: currentUser.name,
-          index: currentUser.index,
-        },
+        name: currentUser.name,
+        index: currentUser.index,
         isNew: false,
       });
     } else {
@@ -40,10 +38,8 @@ export function handleRegCommand(ws: WebSocket, data: RegData): void {
 
     send(ws, "reg", {
       success: true,
-      user: {
-        name: user.name,
-        index: user.index,
-      },
+      name: user.name,
+      index: user.index,
       isNew: true,
     });
   }
