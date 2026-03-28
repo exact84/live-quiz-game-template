@@ -28,7 +28,7 @@ export interface Game {
   questionStartTime?: number;
   questionTimer?: NodeJS.Timeout;
   playerAnswers: Map<string, { answerIndex: number; timestamp: number }>;
-  hostWs: WebSocket;
+  hostWs: WebSocket | undefined;
 }
 
 export interface User {

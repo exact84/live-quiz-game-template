@@ -47,7 +47,11 @@ export function handleAnswerCommand(ws: WebSocket, data: AnswerData) {
     questionIndex: game.currentQuestion,
   });
 
-  if (game.playerAnswers.size === game.players.length) {
+  const connectedPlayersCount = game.players.filter(
+    (player) => player.ws,
+  ).length;
+
+  if (game.playerAnswers.size === connectedPlayersCount) {
     if (game.questionTimer) {
       clearTimeout(game.questionTimer);
       game.questionTimer = undefined;

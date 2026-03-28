@@ -12,6 +12,18 @@ export function disconnectUserBySocket(ws: WebSocket): void {
   if (user) {
     user.ws = undefined;
   }
+
+  for (const game of games) {
+    for (const player of game.players) {
+      if (player.ws === ws) {
+        player.ws = undefined;
+      }
+    }
+
+    if (game.hostWs === ws) {
+      game.hostWs = undefined;
+    }
+  }
 }
 
 export function getUserByName(name: string): User | undefined {
