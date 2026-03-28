@@ -1,4 +1,4 @@
-import type { WSMessage } from "../types";
+import type { Player, WSMessage } from "../types";
 import type { WebSocket } from "ws";
 
 export function isValidMessage(message: unknown): message is WSMessage {
@@ -27,4 +27,16 @@ export function send(ws: WebSocket, type: string, data: unknown): void {
       data,
     }),
   );
+}
+
+export function broadcast(
+  players: Player[],
+  type: string,
+  data: unknown,
+): void {
+  for (const player of players) {
+    if (player.ws) {
+      send(player.ws, type, data);
+    }
+  }
 }
